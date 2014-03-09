@@ -1,0 +1,24 @@
+# 
+# /etc/fstab: static file system information
+#
+# <file system>	<dir>	<type>	<options>	<dump>	<pass>
+# /dev/sdb2
+UUID=521755b0-cc82-4faf-8c50-d6b33eda392d	/         	ext4      	rw,relatime,data=ordered	0 1
+
+# /dev/sdb3
+UUID=25cddd3e-c71b-494d-aeb3-860dd118932a	/home     	ext4      	rw,relatime,data=ordered	0 2
+
+# /dev/sdb1
+UUID=9B72-2254      	/boot     	vfat      	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro	0 2
+
+# /dev/sdb4
+UUID=b51ce5e6-e710-482b-a01f-ac22bdc23a9b	none      	swap      	defaults  	0 0
+
+#C
+UUID=F63013A730136DBD    /home/huang/Desktop/Disk/C  ntfs-3g  defaults 0 0 
+
+UUID=BAE67752E6770DBF    /home/huang/Desktop/Disk/D  ntfs-3g  defaults 0 0
+
+UUID=F43085CC308595F0    /home/huang/Desktop/Disk/E  ntfs-3g  defaults 0 0
+
+UUID=CA10A5AB10A59F47    /home/huang/Desktop/Disk/F  ntfs-3g  defaults 0 0

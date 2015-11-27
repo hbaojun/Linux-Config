@@ -170,7 +170,7 @@ endif
 " -----------------------------------------------------------------------------
 filetype on                                           "启用文件类型侦测
 filetype plugin on                                    "针对不同的文件类型加载对应的插件
-filetype plugin indent on                             "对特定文件启用相关缩进
+"filetype plugin indent on                             "对特定文件启用相关缩进
 
 set smartindent                                       "启用智能对齐方式
 set expandtab                                         "将Tab键转换为空格
@@ -623,7 +623,7 @@ endif
 let g:indentLine_color_term = 239
  
 " 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
-" let g:indentLine_color_gui = '#A4E57E'
+let g:indentLine_color_gui = '#A4E57E'
  
 " -----------------------------------------------------------------------------
 "  < vim-javacompleteex（也就是 javacomplete 增强版）插件配置 >
@@ -641,9 +641,9 @@ let g:indentLine_color_term = 239
 " " 快速浏览和操作Buffer
 " " 主要用于同时打开多个文件并相与切换
  
-" " let g:miniBufExplMapWindowNavArrows = 1     "用Ctrl加方向键切换到上下左右的窗口中去
-" let g:miniBufExplMapWindowNavVim = 1        "用<C-k,j,h,l>切换到上下左右的窗口中去
-" let g:miniBufExplMapCTabSwitchBufs = 1      "功能增强（不过好像只有在Windows中才有用）
+let g:miniBufExplMapWindowNavArrows = 1     "用Ctrl加方向键切换到上下左右的窗口中去
+let g:miniBufExplMapWindowNavVim = 1        "用<C-k,j,h,l>切换到上下左右的窗口中去
+let g:miniBufExplMapCTabSwitchBufs = 1      "功能增强（不过好像只有在Windows中才有用）
 " "                                            <C-Tab> 向前循环切换到每个buffer上,并在但前窗口打开
 " "                                            <C-S-Tab> 向后循环切换到每个buffer上,并在当前窗口打开
  
@@ -658,7 +658,7 @@ noremap <c-l> <c-w>l
 " -----------------------------------------------------------------------------
 " 关键字补全、文件路径补全、tag补全等等，各种，非常好用，速度超快。
 let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
-" let g:neocomplcache_disable_auto_complete = 1 "不自动弹出补全列表
+let g:neocomplcache_disable_auto_complete = 1 "不自动弹出补全列表
 " 在弹出补全列表后用 <c-p> 或 <c-n> 进行上下选择效果比较好
  
 " -----------------------------------------------------------------------------
@@ -666,12 +666,12 @@ let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
 " -----------------------------------------------------------------------------
 " 我主要用于C/C++代码注释(其它的也行)
 " 以下为插件默认快捷键，其中的说明是以C/C++为例的，其它语言类似
-" <Leader>ci 以每行一个 /* */ 注释选中行(选中区域所在行)，再输入则取消注释
-" <Leader>cm 以一个 /* */ 注释选中行(选中区域所在行)，再输入则称重复注释
-" <Leader>cc 以每行一个 /* */ 注释选中行或区域，再输入则称重复注释
-" <Leader>cu 取消选中区域(行)的注释，选中区域(行)内至少有一个 /* */
-" <Leader>ca 在/*...*/与//这两种注释方式中切换（其它语言可能不一样了）
-" <Leader>cA 行尾注释
+"<Leader>ci 以每行一个 /* */ 注释选中行(选中区域所在行)，再输入则取消注释
+"<Leader>cm 以一个 /* */ 注释选中行(选中区域所在行)，再输入则称重复注释
+"<Leader>cc 以每行一个 /* */ 注释选中行或区域，再输入则称重复注释
+"<Leader>cu 取消选中区域(行)的注释，选中区域(行)内至少有一个 /* */
+"<Leader>ca 在/*...*/与//这两种注释方式中切换（其它语言可能不一样了）
+"<Leader>cA 行尾注释
 let NERDSpaceDelims = 1                     "在左注释符之后，右注释符之前留有空格
  
 " -----------------------------------------------------------------------------
@@ -744,7 +744,7 @@ let c_cpp_comments = 0
 nmap tb :TlistClose<CR>:TagbarToggle<CR>
  
 let g:tagbar_width=30                       "设置窗口宽度
-" let g:tagbar_left=1                         "在左侧窗口中显示
+let g:tagbar_left=1                         "在左侧窗口中显示
  
 " -----------------------------------------------------------------------------
 "  < TagList 插件配置 >
@@ -768,9 +768,66 @@ let Tlist_Use_Right_Window=1                "在右侧窗口中显示
 " 用于文本文件生成标签与与语法高亮（调用TagList插件生成标签，如果可以）
 au BufRead,BufNewFile *.txt setlocal ft=txt
  
-" -----------------------------------------------------------------------------
-"  < ZoomWin 插件配置 >
-" -----------------------------------------------------------------------------
-" 用于分割窗口的最大化与还原
-" 常规模式下按快捷键 <c-w>o 在最大化与还原间切换
+"新建.c,.h,.sh,.java文件，自动插入文件头
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()"
+""定义函数SetTitle，自动插入文件头
+func SetTitle()
+"如果文件类型为.sh文件
+if &filetype == 'sh'
+call setline(1,"\#########################################################################")
+call append(line("."), "\# File Name: ".expand("%"))
+call append(line(".")+1, "\# Author: hbaojun")
+call append(line(".")+2, "\# mail: hbaojun.huang@gmail.com")
+call append(line(".")+3, "\# Created Time: ".strftime("%c"))
+call append(line(".")+4, "\#########################################################################")
+call append(line(".")+5, "\#!/bin/bash")
+call append(line(".")+6, "")
+autocmd BufNewFile * normal G
+"else
+"call setline(1, "/*************************************************************************")
+"call append(line("."), " > File Name: ".expand("%"))
+"call append(line(".")+1, " > Author: hbaojun")
+"call append(line(".")+2, " > Mail: hbaojun.huang@gmail.com ")
+"call append(line(".")+3, " > Created Time: ".strftime("%c"))
+"call append(line(".")+4, " ************************************************************************/")
+"call append(line(".")+5, "")
+endif
+"if &filetype == 'cpp'
+"call append(line(".")+6, "#include<iostream>")
+"call append(line(".")+7, "using namespace std;")
+"call append(line(".")+8, "")
+"endif
+"if &filetype == 'c'
+"call append(line(".")+6, "#include<stdio.h>")
+"call append(line(".")+7, "")
+"endif
+"新建文件后，自动定位到文件末尾
 
+endfunc
+"quickfix模式
+autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+set makeprg=g++\ -Wall\ \ % "make 运行
+set diffexpr=MyDiff()
+function MyDiff()
+let opt = '-a --binary '
+if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+let arg1 = v:fname_in
+if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+let arg2 = v:fname_new
+if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+let arg3 = v:fname_out
+if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+let eq = ''
+if $VIMRUNTIME =~ ' '
+if &sh =~ '\<cmd'
+let cmd = '""' . $VIMRUNTIME . '\diff"'
+let eq = '"'
+else
+let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+endif
+else
+let cmd = $VIMRUNTIME . '\diff'
+endif
+silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction

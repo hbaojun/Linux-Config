@@ -134,7 +134,7 @@ Plugin 'vim-scripts/Markdown'
 "Plugin 'vim-scripts/markdown-preview.vim'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
 "Plugin 'vim-scripts/vim-zimwiki-syntax'
-"Plugin 'vim-scripts/winmanager--Fox'
+Plugin 'vim-scripts/TabBar'
 Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/Vimpress'
 Plugin 'vim-scripts/ctags.vim'
@@ -647,7 +647,8 @@ endfunction
 " -----------------------------------------------------------------------------
 let g:NERDTree_title="[NERDTree]"  
 let g:winManagerWindowLayout="NERDTree|TagList"
-let g:AutoOpenWinManager = 1
+let g:StartWindowsManager=1
+let g:persistentBehaviour=0
 nmap <F4> :WMToggle
 
 "Winmanager有个小bug，在打开Winmanager界面时，会同时打开一个空的文件,会影响后续使用.
@@ -661,6 +662,33 @@ nmap <F4> :WMToggle
 "      exe 'q'  
 "   end  
 "endfunction
+
+"function! s:Tlist_Window_Exit_Only_Window()中的winbunr(2)改为winbunr(3)，即只剩2个
+"窗口时关闭，考虑到2个窗口肯定是同时存在，所以这样还是可行的：
+function! s:Tlist_Window_Exit_Only_Window()
+    " Before quitting Vim, delete the taglist buffer so that
+    " the '0 mark is correctly set to the previous buffer.
+    if v:version < 700
+    if winbufnr(3) == -1
+        bdelete
+        quit
+    endif
+    else
+    if winbufnr(3) == -1
+        if tabpagenr('$') == 1
+           " Only one tag page is present
+           bdelete
+           quit
+        else
+           " More than one tab page is present. Close only the current
+           " tab page
+           close
+        endif
+    endif
+    endif
+endfunction
+
+let Tlist_Exit_OnlyWindow=1
 
 "<omnicppcomplete 插件配置 >
 " -----------------------------------------------------------------------------

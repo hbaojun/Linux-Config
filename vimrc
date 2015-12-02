@@ -124,23 +124,22 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'gmarik/snipmate.vim'
 Plugin 'vim-scripts/a.vim'
-Plugin 'vim-scripts/ZoomWin'
-"Plugin 'vim-scripts/winmanager'
+"Plugin 'vim-scripts/ZoomWin'
+Plugin 'vim-scripts/winmanager'
 Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'vim-scripts/c.vim'
-
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'vim-scripts/SuperTab'
 Plugin 'vim-scripts/Markdown'
 "Plugin 'vim-scripts/markdown-preview.vim'
-"Plugin 'vim-scripts/DoxygenToolkit.vim'
+Plugin 'vim-scripts/DoxygenToolkit.vim'
 "Plugin 'vim-scripts/vim-zimwiki-syntax'
-Plugin 'vim-scripts/winmanager--Fox'
+"Plugin 'vim-scripts/winmanager--Fox'
 Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/Vimpress'
 Plugin 'vim-scripts/ctags.vim'
 Plugin 'vim-scripts/cSyntaxAfter'
-"Plugin 'vim-scripts/vim-R-plugin'
+Plugin 'vim-scripts/vim-R-plugin'
 Plugin 'vim-scripts/The-NERD-tree'
 "Plugin 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'
 Plugin 'gerw/vim-latex-suite'
@@ -612,7 +611,12 @@ noremap <c-l> <c-w>l
 "let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
 "let g:neocomplcache_disable_auto_complete = 1 "不自动弹出补全列表
 " 在弹出补全列表后用 <c-p> 或 <c-n> 进行上下选择效果比较好
- 
+
+" -----------------------------------------------------------------------------
+"  < SuperTab插件配置 >
+" -----------------------------------------------------------------------------
+let g:SuperTabDefaultCompletionType="context"
+
 " -----------------------------------------------------------------------------
 "  < nerdcommenter 插件配置 >
 " -----------------------------------------------------------------------------
@@ -630,14 +634,33 @@ noremap <c-l> <c-w>l
 "  < nerdtree 插件配置 >
 " -----------------------------------------------------------------------------
 nmap <F3> :NERDTreeToggle<CR> "常规模式下输入 F3 调用插件
+function! NERDTree_Start()  
+    exec 'NERDTree'  
+endfunction  
+  
+function! NERDTree_IsValid()  
+    return 1  
+endfunction  
 
 " -----------------------------------------------------------------------------
 "  < winManager 插件配置 >
 " -----------------------------------------------------------------------------
-"let g:winManagerWindowLayout="TagList|FileExplorer,BufExplorer"
-"nmap <F4> :WMToggle
-"let g:AutoOpenWinManager = 1
+let g:NERDTree_title="[NERDTree]"  
+let g:winManagerWindowLayout="NERDTree|TagList"
+let g:AutoOpenWinManager = 1
+nmap <F4> :WMToggle
 
+"Winmanager有个小bug，在打开Winmanager界面时，会同时打开一个空的文件,会影响后续使用.
+"在打开Winmanager时关掉这个空文件。在~/.vim/plugin目录下的winmanager.vim文件中找到以
+"下函数定义并在第5行下添加第6行的内容：
+"function! <SID>ToggleWindowsManager()  
+"   if IsWinManagerVisible()  
+"      call s:CloseWindowsManager()  
+"   else  
+"      call s:StartWindowsManager()  
+"      exe 'q'  
+"   end  
+"endfunction
 
 "<omnicppcomplete 插件配置 >
 " -----------------------------------------------------------------------------
@@ -647,7 +670,7 @@ nmap <F3> :NERDTreeToggle<CR> "常规模式下输入 F3 调用插件
 " ctags -R --c++-kinds=+p --fields=+iaS --extra=+q
 " 我使用上面的参数生成标签后，对函数使用跳转时会出现多个选择
 " 所以我就将--c++-kinds=+p参数给去掉了，如果大侠有什么其它解决方法希望不要保留呀
-"set completeopt=menu                        "关闭预览窗口
+set completeopt=menu                        "关闭预览窗口
  
 " -----------------------------------------------------------------------------
 "  < snipMate 插件配置 >
@@ -673,7 +696,7 @@ let Tlist_Exit_OnlyWindow=1                 "如果Taglist窗口是最后一个�
 let Tlist_WinWidth=30                       "设置窗口宽度
 let Tlist_Use_Right_Window=0                "在右侧窗口中显示
 let Tlist_Show_Menu=1 
-let Tlist_Auto_Open=1                 "启动vim自动打开taglist
+"let Tlist_Auto_Open=1                 "启动vim自动打开taglist
 let Tlist_GainFocus_On_ToggleOpen=0   "打开taglist窗口时，焦点在主窗口
 let Tlist_Process_File_Always=1       "始终解析文件中的tag，不管taglist窗口有没有打开
  

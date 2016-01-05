@@ -134,7 +134,7 @@ Plugin 'vim-scripts/Markdown'
 "Plugin 'vim-scripts/markdown-preview.vim'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
 "Plugin 'vim-scripts/vim-zimwiki-syntax'
-Plugin 'vim-scripts/TabBar'
+"Plugin 'vim-scripts/TabBar'
 Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'vim-scripts/Vimpress'
 Plugin 'vim-scripts/ctags.vim'
@@ -142,6 +142,7 @@ Plugin 'vim-scripts/cSyntaxAfter'
 Plugin 'vim-scripts/vim-R-plugin'
 Plugin 'vim-scripts/The-NERD-tree'
 "Plugin 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'gerw/vim-latex-suite'
 Plugin 'flazz/vim-colorschemes'
 "Plugin 'szw/vim-ctrlspace'
@@ -179,6 +180,7 @@ endif
 filetype on                                           "启用文件类型侦测
 filetype plugin on                                    "针对不同的文件类型加载对应的插件
 filetype plugin indent on                             "对特定文件启用相关缩进
+filetype indent on
 
 set smartindent                                       "启用智能对齐方式
 set expandtab                                         "将Tab键转换为空格
@@ -216,6 +218,11 @@ set autowrite
 set iskeyword+=_,$,@,%,#,-
 "不在单词内断行
 set lbr
+
+"set foldmethod=syntax
+set foldlevel=9999
+
+set grepprg=grep\ -nH\ $*
 
 
 " 常规模式下输入 cS 清除行尾空格
@@ -318,10 +325,10 @@ let s:Class_Extension = '.class'
 let s:Sou_Error = 0
  
 let s:windows_CFlags = 'gcc\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-let s:linux_CFlags = 'gcc\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
+let s:linux_CFlags = 'gcc\ -Wall\ -lssl\ -g\ -O0\ -c\ %\ -o\ %<.o'
  
 let s:windows_CPPFlags = 'g++\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-let s:linux_CPPFlags = 'g++\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
+let s:linux_CPPFlags = 'g++\ -Wall\ -lssl\ -g\ -O0\ -c\ %\ -o\ %<.o'
  
 let s:JavaFlags = 'javac\ %'
  
@@ -707,6 +714,18 @@ set completeopt=menu                        "关闭预览窗口
 " 考使用说明或网络教程等。不过有时候也会与 supertab 插件在补全时产生冲突，如果大
 " 侠有什么其它解决方法希望不要保留呀
  
+
+" -----------------------------------------------------------------------------
+"  < Latex-Suite 插件配置 >
+" -----------------------------------------------------------------------------
+"如果使用\label作为\lable{fig:**}, 然后使用\ref{fig: 并且按<C-n>,
+"将自动循环所有的figure labels
+set iskeyword+=:
+
+let g:tex_flavor='pdflatex' 
+
+
+
 " -----------------------------------------------------------------------------
 "  < TagList 插件配置 >
 " -----------------------------------------------------------------------------

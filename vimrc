@@ -18,45 +18,6 @@ else
     let g:isGUI = 0
 endif
  
- 
-" =============================================================================
-"                          << 以下为软件默认配置 >>
-" =============================================================================
- 
-" -----------------------------------------------------------------------------
-"  < Windows Gvim 默认配置> 做了一点修改
-" -----------------------------------------------------------------------------
-if (g:iswindows && g:isGUI)
-    source $VIMRUNTIME/vimrc_example.vim
-    source $VIMRUNTIME/mswin.vim
-    behave mswin
-    set diffexpr=MyDiff()
- 
-    function MyDiff()
-        let opt = '-a --binary '
-        if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-        if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-        let arg1 = v:fname_in
-        if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-        let arg2 = v:fname_new
-        if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-        let arg3 = v:fname_out
-        if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-        let eq = ''
-        if $VIMRUNTIME =~ ' '
-            if &sh =~ '\<cmd'
-                let cmd = '""' . $VIMRUNTIME . '\diff"'
-                let eq = '"'
-            else
-                let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-            endif
-        else
-            let cmd = $VIMRUNTIME . '\diff'
-        endif
-        silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-    endfunction
-endif
- 
 " -----------------------------------------------------------------------------
 "  < Linux Gvim/Vim 默认配置> 做了一点修改
 " -----------------------------------------------------------------------------
@@ -102,7 +63,7 @@ endif
 " -----------------------------------------------------------------------------
 " 用于更方便的管理vim插件，具体用法参考 :h vundle 帮助
 " Vundle工具安装方法为在终端输入如下命令
-" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" git clone https://github.com/gmarik/vundle.git /usr/share/vim/vimfiles/bundle/Vundle.vim
 " 如果想在 windows 安装就必需先安装 "git for window"，可查阅网上资料
 
 "vundle需要 
@@ -110,7 +71,7 @@ set nocompatible                                      "禁用 Vi 兼容模式
 filetype off                                          "禁用文件类型侦测
  
 if g:islinux
-    set rtp+=/etc/vim/bundle/Vundle.vim
+    set rtp+=/usr/share/vim/vimfiles/bundle/Vundle.vim
     call vundle#begin()
 else
     set rtp+=$VIM/vimfiles/bundle/Vundle.vim
@@ -130,7 +91,7 @@ Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'vim-scripts/c.vim'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'vim-scripts/SuperTab'
-Plugin 'vim-scripts/Markdown'
+"Plugin 'vim-scripts/Markdown'
 "Plugin 'vim-scripts/markdown-preview.vim'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
 "Plugin 'vim-scripts/vim-zimwiki-syntax'
@@ -142,10 +103,12 @@ Plugin 'vim-scripts/cSyntaxAfter'
 Plugin 'vim-scripts/vim-R-plugin'
 Plugin 'vim-scripts/The-NERD-tree'
 "Plugin 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'gerw/vim-latex-suite'
 Plugin 'flazz/vim-colorschemes'
 "Plugin 'szw/vim-ctrlspace'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 call vundle#end()
 
 " -----------------------------------------------------------------------------
@@ -787,27 +750,5 @@ endfunc
 "quickfix模式
 autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
 set makeprg=g++\ -Wall\ \ % "make 运行
-set diffexpr=MyDiff()
-function MyDiff()
-let opt = '-a --binary '
-if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-let arg1 = v:fname_in
-if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-let arg2 = v:fname_new
-if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-let arg3 = v:fname_out
-if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-let eq = ''
-if $VIMRUNTIME =~ ' '
-if &sh =~ '\<cmd'
-let cmd = '""' . $VIMRUNTIME . '\diff"'
-let eq = '"'
-else
-let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-endif
-else
-let cmd = $VIMRUNTIME . '\diff'
-endif
-silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
+
+let g:vim_markdown_folding_disabled = 1
